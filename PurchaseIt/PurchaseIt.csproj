@@ -58,10 +58,14 @@
   <ItemGroup>
     <Compile Include="Areas.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Loading.cs" />
     <Compile Include="ModConfig.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchasePanel.cs" />
+    <Compile Include="PurchaseUtils.cs" />
+    <Compile Include="UIUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

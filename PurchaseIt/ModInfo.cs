@@ -1,4 +1,6 @@
-﻿using Harmony;
+﻿using ColossalFramework;
+using ColossalFramework.UI;
+using Harmony;
 using ICities;
 using System.Reflection;
 
@@ -26,7 +28,7 @@ namespace PurchaseIt
             UIHelperBase group;
             bool selected;
             float selectedValue;
-            int result;
+            int value;
 
             group = helper.AddGroup(Name);
 
@@ -55,8 +57,8 @@ namespace PurchaseIt
 
             group.AddTextfield("Fixed price", selectedValue.ToString(), sel =>
             {
-                int.TryParse(sel, out result);
-                ModConfig.Instance.FixedPrice = result;
+                int.TryParse(sel, out value);
+                ModConfig.Instance.FixedPrice = value;
                 ModConfig.Instance.Save();
             });
         }
