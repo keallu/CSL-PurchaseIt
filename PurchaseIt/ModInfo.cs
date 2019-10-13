@@ -1,6 +1,4 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
-using Harmony;
+﻿using Harmony;
 using ICities;
 using System.Reflection;
 
@@ -11,16 +9,24 @@ namespace PurchaseIt
         public string Name => "Purchase It!";
         public string Description => "Allows to purchase any of the 25 tiles anytime.";
 
+        public HarmonyInstance Harmony;
+
         public void OnEnabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.purchaseit");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Harmony = HarmonyInstance.Create("com.github.keallu.csl.purchaseit");
+
+            if (Harmony != null)
+            {
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
         }
 
         public void OnDisabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.purchaseit");
-            harmony.UnpatchAll();
+            if (Harmony != null)
+            {
+                Harmony.UnpatchAll();
+            }
         }
 
         public void OnSettingsUI(UIHelperBase helper)
@@ -40,14 +46,14 @@ namespace PurchaseIt
             });
 
             selected = ModConfig.Instance.PurchasableWithoutMilestones;
-            group.AddCheckbox("25 tiles purchasable without milestones", selected, sel =>
+            group.AddCheckbox("All tiles purchasable without milestones", selected, sel =>
             {
                 ModConfig.Instance.PurchasableWithoutMilestones = sel;
                 ModConfig.Instance.Save();
             });
 
             selected = ModConfig.Instance.PurchasableForFixedPrice;
-            group.AddCheckbox("25 tiles purchasable for fixed price", selected, sel =>
+            group.AddCheckbox("All tiles purchasable for fixed price", selected, sel =>
             {
                 ModConfig.Instance.PurchasableForFixedPrice = sel;
                 ModConfig.Instance.Save();

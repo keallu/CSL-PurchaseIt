@@ -14,6 +14,10 @@ namespace PurchaseIt
                 {
                     areas.maxAreaCount = 25;
                 }
+                else
+                {
+                    areas.maxAreaCount = 9;
+                }
             }
             catch (Exception e)
             {

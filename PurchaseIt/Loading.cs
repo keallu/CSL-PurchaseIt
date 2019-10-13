@@ -16,7 +16,7 @@ namespace PurchaseIt
             {
                 _loadMode = mode;
 
-                if (_loadMode != LoadMode.LoadGame && _loadMode != LoadMode.NewGame && _loadMode != LoadMode.NewGameFromScenario)
+                if (_loadMode != LoadMode.LoadGame && _loadMode != LoadMode.LoadScenario && _loadMode != LoadMode.NewGame && _loadMode != LoadMode.NewGameFromScenario)
                 {
                     return;
                 }
@@ -38,7 +38,7 @@ namespace PurchaseIt
         {
             try
             {
-                if (_loadMode != LoadMode.LoadGame && _loadMode != LoadMode.NewGame && _loadMode != LoadMode.NewGameFromScenario)
+                if (_loadMode != LoadMode.LoadGame && _loadMode != LoadMode.LoadScenario && _loadMode != LoadMode.NewGame && _loadMode != LoadMode.NewGameFromScenario)
                 {
                     return;
                 }

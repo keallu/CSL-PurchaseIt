@@ -9,38 +9,18 @@ namespace PurchaseIt
     {
         private bool _initialized;
 
+        private GameAreaManager _gameAreaManager;
         private GameAreaInfoPanel _gameAreaInfoPanel;
         private UIButton _purchaseAllButton;
-
-        public override void Awake()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                Debug.Log("[Purchase It!] PurchasePanel:Awake -> Exception: " + e.Message);
-            }
-        }
-
-        public override void OnEnable()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                Debug.Log("[Purchase It!] PurchasePanel:OnEnable -> Exception: " + e.Message);
-            }
-        }
 
         public override void Start()
         {
             try
             {
-                CreateUI();
+                if (_gameAreaManager == null)
+                {
+                    _gameAreaManager = Singleton<GameAreaManager>.instance;
+                }
 
                 if (_gameAreaInfoPanel == null)
                 {
@@ -49,7 +29,7 @@ namespace PurchaseIt
 
                 _gameAreaInfoPanel.component.eventVisibilityChanged += (component, value) =>
                 {
-                    if (value && Singleton<GameAreaManager>.instance.m_areaCount < 25)
+                    if (value && ModConfig.Instance.PurchasableWithoutMilestones && _gameAreaManager.m_maxAreaCount == 25 && _gameAreaManager.m_areaCount < _gameAreaManager.m_maxAreaCount)
                     {
                         isVisible = true;
                     }
@@ -58,6 +38,8 @@ namespace PurchaseIt
                         isVisible = false;
                     }
                 };
+
+                CreateUI();
             }
             catch (Exception e)
             {
@@ -81,18 +63,6 @@ namespace PurchaseIt
             }
         }
 
-        public override void OnDisable()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                Debug.Log("[Purchase It!] PurchasePanel:OnDisable -> Exception: " + e.Message);
-            }
-        }
-
         public override void OnDestroy()
         {
             try
@@ -112,7 +82,9 @@ namespace PurchaseIt
         {
             try
             {
-                absolutePosition = new Vector3(Mathf.Floor((GetUIView().fixedWidth - width) / 2f), Mathf.Floor((GetUIView().fixedHeight - height) / 1.35f));
+                height = 57f;
+                width = 310f;
+                absolutePosition = new Vector3(Mathf.Floor((GetUIView().fixedWidth - width) / 2f), Mathf.Floor((GetUIView().fixedHeight - height) / 1.25f));
                 isVisible = false;
 
                 _purchaseAllButton = UIUtils.CreateButton(this, "PurchaseAllButton", "PURCHASE ALL FOR FREE");
@@ -129,7 +101,7 @@ namespace PurchaseIt
                     {
                         eventParam.Use();
 
-                        ConfirmPanel.ShowModal("Confirmation", "Are you sure you wish to purchase all tiles for free now?", delegate (UIComponent comp, int ret)
+                        ConfirmPanel.ShowModal("Confirmation", "Are you sure you wish to purchase all remaining tiles for free now?", delegate (UIComponent comp, int ret)
                         {
                             if (ret == 1)
                             {
