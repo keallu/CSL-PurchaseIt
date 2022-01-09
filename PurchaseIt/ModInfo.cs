@@ -1,6 +1,5 @@
-﻿using Harmony;
+﻿using CitiesHarmony.API;
 using ICities;
-using System.Reflection;
 
 namespace PurchaseIt
 {
@@ -9,23 +8,16 @@ namespace PurchaseIt
         public string Name => "Purchase It!";
         public string Description => "Allows to purchase any of the 25 tiles anytime.";
 
-        public HarmonyInstance Harmony;
-
         public void OnEnabled()
         {
-            Harmony = HarmonyInstance.Create("com.github.keallu.csl.purchaseit");
-
-            if (Harmony != null)
-            {
-                Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            }
+            HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
         }
 
         public void OnDisabled()
         {
-            if (Harmony != null)
+            if (HarmonyHelper.IsHarmonyInstalled)
             {
-                Harmony.UnpatchAll();
+                Patcher.UnpatchAll();
             }
         }
 
