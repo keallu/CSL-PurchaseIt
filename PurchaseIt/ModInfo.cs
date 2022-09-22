@@ -1,5 +1,6 @@
 ﻿using CitiesHarmony.API;
 using ICities;
+using System.Reflection;
 
 namespace PurchaseIt
 {
@@ -24,11 +25,14 @@ namespace PurchaseIt
         public void OnSettingsUI(UIHelperBase helper)
         {
             UIHelperBase group;
+
+            AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+
+            group = helper.AddGroup(Name + " - " + assemblyName.Version.Major + "." + assemblyName.Version.Minor);
+
             bool selected;
             float selectedValue;
             int value;
-
-            group = helper.AddGroup(Name);
 
             selected = ModConfig.Instance.Purchasable;
             group.AddCheckbox("25 tiles purchasable (requires reload if you are in-game)", selected, sel =>
